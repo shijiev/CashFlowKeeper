@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.shijiev.cashflowkeeper.mapper.DailyMapper">
+
+    <select id="getDailyById" resultType="io.shijiev.cashflowkeeper.bean.DailyConsume">
+        select * from daily_consume where id = #{dailyId};
+    </select>
+
+    <insert id="addDaily" parameterType="io.shijiev.cashflowkeeper.bean.DailyConsume">
+        INSERT INTO daily_consume
+        (user_id, user_name, consume_scene, consume_event, consume_amount_f, consume_amount_y, tags)
+        VALUES(#{userId}, #{userName}, #{consumeScene}, #{consumeEvent}, #{consumeAmountF}, #{consumeAmountY}, #{tags});
+    </insert>
+
+    <select id="getDailyAll" resultType="io.shijiev.cashflowkeeper.bean.DailyConsume">
+        select * from daily_consume
+        <where>
+            <if test="userName != null">
+                and user_name = #{userName}
+            </if>
+        </where>
+        order by create_time desc;
+    </select>
+
+</mapper>
